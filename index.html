@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mavidenta — لوحة الليدز</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", Arial, sans-serif; background: #F4F3EF; color: #1f2937; padding: 22px; line-height: 1.5; }
+.wrap { max-width: 1120px; margin: 0 auto; }
+.head { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.head h1 { font-size: 22px; font-weight: 700; }
+.head .sub { font-size: 13px; color: #8a8a80; }
+.ctrl { display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
+.presets { display: flex; gap: 6px; flex-wrap: wrap; }
+.presets button { font-family: inherit; font-size: 13px; padding: 6px 12px; border-radius: 20px; border: 1px solid #DAD8D0; background: #fff; color: #444; cursor: pointer; }
+.presets button.on { background: #1f2a44; color: #fff; border-color: #1f2a44; }
+.range { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #6b7280; }
+input[type=date] { font-family: inherit; font-size: 13px; padding: 6px 10px; border-radius: 10px; border: 1px solid #DAD8D0; background: #fff; }
+.note { font-size: 12px; color: #8a8a80; margin: 10px 0 18px; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
+@media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+.card { background: #fff; border: 1px solid #EAE8E1; border-radius: 16px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.sumcard { grid-column: 1 / -1; background: #1f2a44; border: none; color: #fff; }
+.sumcard .lang { color: #fff; }
+.sumgrid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-top: 14px; }
+@media (max-width: 720px){ .sumgrid { grid-template-columns: repeat(2,1fr); } }
+.sumbox { background: rgba(255,255,255,.08); border-radius: 12px; padding: 12px 14px; }
+.sumbox .sl { font-size: 12px; color: #b8c0d4; }
+.sumbox .sv { font-size: 22px; font-weight: 700; margin-top: 2px; }
+.sumbud { margin-top: 14px; }
+.sumbud .track { background: rgba(255,255,255,.15); }
+.crow { display: flex; align-items: center; justify-content: space-between; }
+.lang { font-size: 17px; font-weight: 700; }
+.badge { font-size: 12px; padding: 4px 11px; border-radius: 20px; font-weight: 600; }
+.badge.active { background: #E1F3E8; color: #1B7A3D; }
+.budline { display: flex; justify-content: space-between; font-size: 13px; color: #6b7280; margin: 16px 0 7px; }
+.budline b { font-size: 15px; font-weight: 700; color: #1f2937; }
+.track { background: #ECEAE4; border-radius: 20px; height: 10px; overflow: hidden; }
+.fill { height: 100%; border-radius: 20px; }
+.cap { font-size: 12px; color: #a3a29a; text-align: left; margin-top: 5px; }
+.sumcap { color: #b8c0d4; }
+.plabel { font-size: 12px; color: #8a8a80; text-align: right; margin: 16px 0 8px; }
+.plats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.pbox { background: #F5F4F0; border-radius: 12px; padding: 10px 6px; text-align: center; }
+.pbox.soon { opacity: .55; }
+.pbox .pn { font-size: 12px; color: #8a8a80; }
+.pbox .pv { font-size: 19px; font-weight: 700; margin: 1px 0; }
+.pbox .pc { font-size: 12px; font-weight: 600; min-height: 15px; }
+.pbox .ps { font-size: 11px; color: #a3a29a; border-top: 1px solid #E5E3DC; padding-top: 5px; margin-top: 6px; }
+.up { color: #15803d; } .down { color: #b91c1c; } .muted { color: #a3a29a; }
+.total { display: flex; align-items: center; justify-content: space-between; background: #E8F0FE; border-radius: 12px; padding: 12px 14px; margin-top: 16px; }
+.total .tl { font-size: 13px; color: #1B4C9B; font-weight: 600; }
+.total .tv { font-size: 22px; font-weight: 700; color: #1B4C9B; }
+.daily { border-top: 1px solid #EAE8E1; margin-top: 16px; padding-top: 13px; }
+.drow { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+.drow .dl { font-size: 13px; color: #6b7280; }
+.dmain { display: flex; align-items: baseline; gap: 6px; margin-bottom: 8px; }
+.dmain .dv { font-size: 23px; font-weight: 700; }
+.dmain .dt { font-size: 13px; color: #a3a29a; }
+.pill { margin-inline-start: auto; font-size: 12px; padding: 3px 10px; border-radius: 20px; font-weight: 600; }
+.pill.ok { background: #E1F3E8; color: #1B7A3D; }
+.pill.bad { background: #FBE7E7; color: #b91c1c; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Mavidenta — لوحة الليدز</h1>
+      <div class="sub">صرف · ليدز · ميزانية لكل لغة — Google + Meta</div>
+    </div>
+    <div class="ctrl">
+      <div class="presets" id="presets">
+        <button data-p="today">النهاردة</button>
+        <button data-p="yest">امبارح</button>
+        <button data-p="last7" class="on">آخر ٧ أيام</button>
+        <button data-p="this">الشهر ده</button>
+        <button data-p="last">الشهر اللي فات</button>
+      </div>
+      <div class="range">من <input type="date" id="from"> إلى <input type="date" id="to"></div>
+    </div>
+  </div>
+  <div class="note">تحديث تلقائي كل ١٢ ساعة — آخر تحديث: <!--SNAPSHOT-->16 يوليو 2026<!--/SNAPSHOT-->. اختار أي مدى تاريخ من فوق. المبالغ ₺ · TikTok قريبًا.</div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+/*DAILY_START*/
+const DAILY = {"2026-07-10": {"en": {"g": {"v": 3, "s": 21631}, "m": {"v": 3, "s": 5817}}, "ru": {"g": {"v": 3, "s": 17375}, "m": {"v": 12, "s": 17343}}, "ro": {"g": {"v": 1, "s": 3621}, "m": {"v": 7, "s": 9212}}, "sp": {"g": {"v": 1, "s": 4130}, "m": {"v": 3, "s": 6362}}}, "2026-07-11": {"en": {"g": {"v": 2, "s": 20776}, "m": {"v": 3, "s": 5817}}, "ru": {"g": {"v": 3, "s": 18689}, "m": {"v": 12, "s": 17343}}, "ro": {"g": {"v": 0, "s": 3130}, "m": {"v": 7, "s": 9212}}, "sp": {"g": {"v": 2, "s": 10173}, "m": {"v": 3, "s": 6362}}}, "2026-07-12": {"en": {"g": {"v": 8, "s": 19220}, "m": {"v": 3, "s": 5817}}, "ru": {"g": {"v": 0, "s": 23754}, "m": {"v": 12, "s": 17343}}, "ro": {"g": {"v": 1, "s": 3328}, "m": {"v": 7, "s": 9212}}, "sp": {"g": {"v": 5, "s": 13995}, "m": {"v": 3, "s": 6362}}}, "2026-07-13": {"en": {"g": {"v": 6, "s": 22068}, "m": {"v": 3, "s": 5817}}, "ru": {"g": {"v": 5, "s": 27539}, "m": {"v": 12, "s": 17343}}, "ro": {"g": {"v": 2, "s": 3858}, "m": {"v": 7, "s": 9212}}, "sp": {"g": {"v": 5, "s": 10537}, "m": {"v": 3, "s": 6362}}}, "2026-07-14": {"en": {"g": {"v": 0, "s": 20448}, "m": {"v": 3, "s": 5817}}, "ru": {"g": {"v": 6, "s": 27544}, "m": {"v": 12, "s": 17343}}, "ro": {"g": {"v": 0, "s": 4025}, "m": {"v": 7, "s": 9212}}, "sp": {"g": {"v": 1, "s": 7032}, "m": {"v": 3, "s": 6362}}}, "2026-07-15": {"en": {"g": {"v": 8, "s": 20933}, "m": {"v": 3, "s": 5817}}, "ru": {"g": {"v": 3, "s": 28032}, "m": {"v": 12, "s": 17343}}, "ro": {"g": {"v": 1, "s": 4272}, "m": {"v": 7, "s": 9212}}, "sp": {"g": {"v": 4, "s": 6494}, "m": {"v": 3, "s": 6362}}}, "2026-07-16": {"en": {"g": {"v": 5, "s": 19928}, "m": {"v": 3, "s": 5817}}, "ru": {"g": {"v": 4, "s": 22467}, "m": {"v": 12, "s": 17343}}, "ro": {"g": {"v": 0, "s": 3489}, "m": {"v": 7, "s": 9212}}, "sp": {"g": {"v": 3, "s": 5876}, "m": {"v": 3, "s": 6362}}}};
+/*DAILY_END*/
+const LANGS = [ {code:"en",name:"English · EN",target:10,budget:920000}, {code:"ru",name:"Russian · RU",target:16,budget:1380000}, {code:"ro",name:"Romanian · RO",target:10,budget:920000}, {code:"sp",name:"Spanish · SP",target:5,budget:690000} ];
+const num = n => Math.round(n||0).toLocaleString("en-US");
+const arrow = c => c >= 0 ? "▲" : "▼";
+const DATES = Object.keys(DAILY).sort();
+const MIN = DATES[0], MAX = DATES[DATES.length-1];
+
+function inRange(a,b){ return DATES.filter(d => d>=a && d<=b); }
+function sumDates(ds){
+  const agg={}; for(const L of LANGS) agg[L.code]={g:{v:0,s:0},m:{v:0,s:0}};
+  for(const d of ds){ const day=DAILY[d]; if(!day) continue;
+    for(const L of LANGS){ const x=day[L.code]; if(!x) continue;
+      agg[L.code].g.v+=x.g.v; agg[L.code].g.s+=x.g.s; agg[L.code].m.v+=x.m.v; agg[L.code].m.s+=x.m.s; } }
+  return agg;
+}
+const CURMONTH = MAX.slice(0,7);
+const MONTH = sumDates(DATES.filter(d => d.slice(0,7)===CURMONTH));
+
+function platBox(name, cur, days, prev, prevDays){
+  const rn = cur.v/days, rp = prevDays ? prev.v/prevDays : 0;
+  const c = rp ? Math.round((rn-rp)/rp*100) : null;
+  const chg = c===null ? `<span class="muted">—</span>` : `<span class="${c>=0?'up':'down'}">${arrow(c)} ${Math.abs(c)}%</span>`;
+  return `<div class="pbox"><div class="pn">${name}</div><div class="pv">${cur.v}</div><div class="pc">${chg}</div><div class="ps">صرف ${num(cur.s)}</div></div>`;
+}
+function soonBox(name){ return `<div class="pbox soon"><div class="pn">${name}</div><div class="pv muted">—</div><div class="pc muted">قريبًا</div><div class="ps">—</div></div>`; }
+
+function card(L, agg, prev, days, prevDays){
+  const g=agg[L.code].g, m=agg[L.code].m, total=g.v+m.v;
+  const mSpend = MONTH[L.code].g.s + MONTH[L.code].m.s;
+  const rem = L.budget-mSpend, bpct=Math.round(mSpend/L.budget*100), warn=bpct>=90;
+  const pt = Math.max(1, Math.round(L.target*days));
+  const pct = Math.round(total/pt*100), ok=pct>=100;
+  return `<div class="card">
+    <div class="crow"><span class="lang">${L.name}</span><span class="badge active">نشط</span></div>
+    <div class="budline"><span>المصروف الشهري <b>${num(mSpend)}</b></span><span>المتبقي <b style="color:${warn?'#B45309':'#15803d'}">${num(rem)}</b></span></div>
+    <div class="track"><div class="fill" style="width:${Math.min(bpct,100)}%;background:${warn?'#B45309':'#8A5A2B'}"></div></div>
+    <div class="cap">${bpct}% من ميزانية ${num(L.budget)} ₺ (الشهر الحالي)</div>
+    <div class="plabel">حسب المنصة — صرف / ليدز</div>
+    <div class="plats">${soonBox("TikTok")}${platBox("Google", g, days, prev[L.code].g, prevDays)}${platBox("Meta", m, days, prev[L.code].m, prevDays)}</div>
+    <div class="total"><span class="tl">إجمالي الليدز</span><span class="tv">${total}</span></div>
+    <div class="daily">
+      <div class="drow"><span class="dl">ليدز الفترة / التارجيت (${days} يوم)</span></div>
+      <div class="dmain"><span class="dv">${total}</span><span class="dt">/ ${pt}</span>
+        <span class="pill ${ok?"ok":"bad"}">${pct}% ${ok?"✓":"✕"}</span></div>
+      <div class="track"><div class="fill" style="width:${Math.min(pct,100)}%;background:${ok?"#15803d":"#C0392B"}"></div></div>
+    </div>
+  </div>`;
+}
+function summaryCard(agg, days){
+  let pLeads=0,pSpend=0,budget=0,mSpend=0,pt=0;
+  for (const L of LANGS){ const a=agg[L.code];
+    pLeads+=a.g.v+a.m.v; pSpend+=a.g.s+a.m.s; budget+=L.budget;
+    mSpend+=MONTH[L.code].g.s+MONTH[L.code].m.s; pt+=Math.round(L.target*days); }
+  const rem=budget-mSpend, bpct=Math.round(mSpend/budget*100), warn=bpct>=90;
+  const pct=Math.round(pLeads/Math.max(1,pt)*100), ok=pct>=100;
+  return `<div class="card sumcard">
+    <div class="crow"><span class="lang">كل اللغات — ملخص</span><span class="badge active">${days} يوم</span></div>
+    <div class="sumgrid">
+      <div class="sumbox"><div class="sl">إجمالي الليدز</div><div class="sv">${pLeads}</div></div>
+      <div class="sumbox"><div class="sl">صرف الفترة ₺</div><div class="sv">${num(pSpend)}</div></div>
+      <div class="sumbox"><div class="sl">التارجيت</div><div class="sv">${pt} <span style="font-size:13px;color:${ok?'#7ee2a8':'#f2a6a6'}">${pct}%</span></div></div>
+      <div class="sumbox"><div class="sl">إجمالي الميزانية ₺</div><div class="sv">${num(budget)}</div></div>
+    </div>
+    <div class="sumbud">
+      <div class="budline" style="color:#b8c0d4"><span>المصروف الشهري <b style="color:#fff">${num(mSpend)}</b></span><span>المتبقي <b style="color:${warn?'#f2b06a':'#7ee2a8'}">${num(rem)}</b></span></div>
+      <div class="track"><div class="fill" style="width:${Math.min(bpct,100)}%;background:${warn?'#E0972F':'#4E7CD1'}"></div></div>
+      <div class="cap sumcap">${bpct}% من إجمالي الميزانية الشهرية</div>
+    </div>
+  </div>`;
+}
+const grid = document.getElementById("grid");
+const fromEl = document.getElementById("from"), toEl = document.getElementById("to");
+fromEl.min = toEl.min = MIN; fromEl.max = toEl.max = MAX;
+
+function render(a, b){
+  if (a < MIN) a = MIN; if (b > MAX) b = MAX;
+  fromEl.value = a; toEl.value = b;
+  const ds = inRange(a,b), days = ds.length||1;
+  const agg = sumDates(ds);
+  const before = DATES.filter(d => d < a);
+  const prevDs = before.slice(-days), prevDays = prevDs.length;
+  const prev = sumDates(prevDs);
+  grid.innerHTML = summaryCard(agg, days) + LANGS.map(L => card(L, agg, prev, days, prevDays)).join("");
+}
+function shift(dateStr, n){ const d=new Date(dateStr+"T00:00:00"); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); }
+function applyPreset(p){
+  document.querySelectorAll("#presets button").forEach(b=>b.classList.toggle("on", b.dataset.p===p));
+  if (p==="today") render(MAX, MAX);
+  else if (p==="yest"){ const y=shift(MAX,-1); render(y,y); }
+  else if (p==="last7") render(shift(MAX,-6), MAX);
+  else if (p==="this") render(CURMONTH+"-01", MAX);
+  else if (p==="last"){ const lm=shift(CURMONTH+"-01",-1).slice(0,7); render(lm+"-01", lm+"-28"); }
+}
+document.querySelectorAll("#presets button").forEach(b => b.addEventListener("click", () => applyPreset(b.dataset.p)));
+function manual(){ document.querySelectorAll("#presets button").forEach(b=>b.classList.remove("on")); render(fromEl.value, toEl.value); }
+fromEl.addEventListener("change", manual); toEl.addEventListener("change", manual);
+applyPreset("last7");
+</script>
+</body>
+</html>
